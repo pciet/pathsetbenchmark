@@ -20,7 +20,7 @@ func (the Point) Equal(other Point) bool {
 
 type Path []Point
 
-func (the Path) Equal(other Path) bool {
+func (the Path) PathEqual(other Path) bool {
 	if len(the) != len(other) {
 		return false
 	}
@@ -30,4 +30,12 @@ func (the Path) Equal(other Path) bool {
 		}
 	}
 	return true
+}
+
+func (the Path) Equal(to Item) bool {
+	path, ok := to.(Path)
+	if ok == false {
+		panic("not a path")
+	}
+	return the.PathEqual(path)
 }

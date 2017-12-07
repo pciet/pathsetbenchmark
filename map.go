@@ -12,15 +12,23 @@ func MapAdd(the MapPathSet, add Path) MapPathSet {
 	return the
 }
 
+func (the MapPathSet) Add(an Item) Set {
+	return MapAdd(the, an.(Path))
+}
+
 func MapDelete(the MapPathSet, remove Path) MapPathSet {
 	out := make(MapPathSet)
 	for item, _ := range the {
-		if (*item).Equal(remove) {
+		if (*item).PathEqual(remove) {
 			continue
 		}
 		out[item] = struct{}{}
 	}
 	return out
+}
+
+func (the MapPathSet) Remove(an Item) Set {
+	return MapDelete(the, an.(Path))
 }
 
 func MapCombine(sets ...MapPathSet) MapPathSet {
@@ -31,6 +39,15 @@ func MapCombine(sets ...MapPathSet) MapPathSet {
 		}
 	}
 	return out
+}
+
+func (the MapPathSet) Combine(with ...Set) Set {
+	sets := make([]MapPathSet, len(with)+1)
+	sets[0] = the
+	for i, set := range with {
+		sets[i+1] = set.(MapPathSet)
+	}
+	return MapCombine(sets...)
 }
 
 func MapReduce(the MapPathSet) MapPathSet {
@@ -44,13 +61,21 @@ func MapReduce(the MapPathSet) MapPathSet {
 	return out
 }
 
+func (the MapPathSet) Reduce() Set {
+	return MapReduce(the)
+}
+
 func MapHas(the MapPathSet, item Path) bool {
 	for path, _ := range the {
-		if (*path).Equal(item) {
+		if (*path).PathEqual(item) {
 			return true
 		}
 	}
 	return false
+}
+
+func (the MapPathSet) Has(an Item) bool {
+	return MapHas(the, an.(Path))
 }
 
 func MapEqual(sets ...MapPathSet) bool {
@@ -69,6 +94,10 @@ func MapEqual(sets ...MapPathSet) bool {
 	return true
 }
 
+func (the MapPathSet) Equal(to Set) bool {
+	return MapEqual(the, to.(MapPathSet))
+}
+
 func MapDiff(a MapPathSet, b MapPathSet) MapPathSet {
 	out := make(MapPathSet)
 	for item, _ := range a {
@@ -82,4 +111,8 @@ func MapDiff(a MapPathSet, b MapPathSet) MapPathSet {
 		}
 	}
 	return out
+}
+
+func (the MapPathSet) Diff(with Set) Set {
+	return MapDiff(the, with.(MapPathSet))
 }

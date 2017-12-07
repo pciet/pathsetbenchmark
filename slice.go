@@ -12,15 +12,23 @@ func SliceAdd(the SlicePathSet, add Path) SlicePathSet {
 	return the
 }
 
+func (the SlicePathSet) Add(an Item) Set {
+	return SliceAdd(the, an.(Path))
+}
+
 func SliceDelete(the SlicePathSet, remove Path) SlicePathSet {
 	out := make(SlicePathSet, 0, len(the))
 	for _, item := range the {
-		if item.Equal(remove) {
+		if item.PathEqual(remove) {
 			continue
 		}
 		out = append(out, item)
 	}
 	return out
+}
+
+func (the SlicePathSet) Remove(an Item) Set {
+	return SliceDelete(the, an.(Path))
 }
 
 func SliceCombine(sets ...SlicePathSet) SlicePathSet {
@@ -31,6 +39,15 @@ func SliceCombine(sets ...SlicePathSet) SlicePathSet {
 		}
 	}
 	return out
+}
+
+func (the SlicePathSet) Combine(sets ...Set) Set {
+	combine := make([]SlicePathSet, len(sets)+1)
+	combine[0] = the
+	for i, set := range sets {
+		combine[i+1] = set.(SlicePathSet)
+	}
+	return SliceCombine(combine...)
 }
 
 func SliceReduce(the SlicePathSet) SlicePathSet {
@@ -44,13 +61,21 @@ func SliceReduce(the SlicePathSet) SlicePathSet {
 	return out
 }
 
+func (the SlicePathSet) Reduce() Set {
+	return SliceReduce(the)
+}
+
 func SliceHas(the SlicePathSet, item Path) bool {
 	for _, path := range the {
-		if path.Equal(item) {
+		if path.PathEqual(item) {
 			return true
 		}
 	}
 	return false
+}
+
+func (the SlicePathSet) Has(an Item) bool {
+	return SliceHas(the, an.(Path))
 }
 
 func SliceEqual(sets ...SlicePathSet) bool {
@@ -70,6 +95,10 @@ func SliceEqual(sets ...SlicePathSet) bool {
 	return true
 }
 
+func (the SlicePathSet) Equal(a Set) bool {
+	return SliceEqual(the, a.(SlicePathSet))
+}
+
 func SliceDiff(a SlicePathSet, b SlicePathSet) SlicePathSet {
 	out := make(SlicePathSet, 0, len(a))
 	for _, item := range a {
@@ -83,4 +112,8 @@ func SliceDiff(a SlicePathSet, b SlicePathSet) SlicePathSet {
 		}
 	}
 	return out
+}
+
+func (the SlicePathSet) Diff(with Set) Set {
+	return SliceDiff(the, with.(SlicePathSet))
 }
