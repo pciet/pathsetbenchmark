@@ -7,6 +7,14 @@ import ()
 
 type MapPathSet map[*Path]struct{}
 
+func MapCopy(the MapPathSet) MapPathSet {
+	next := make(MapPathSet)
+	for key, _ := range the {
+		next[key] = struct{}{}
+	}
+	return next
+}
+
 func MapAdd(the MapPathSet, add Path) MapPathSet {
 	the[&add] = struct{}{}
 	return the

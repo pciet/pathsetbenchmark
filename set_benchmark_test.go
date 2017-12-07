@@ -186,6 +186,26 @@ var (
 	}
 )
 
+var sliceCopyResult SlicePathSet
+
+func BenchmarkSliceCopy(b *testing.B) {
+	var out SlicePathSet
+	for n := 0; n < b.N; n++ {
+		out = SliceCopy(BaseChessSliceSet)
+	}
+	sliceCopyResult = out
+}
+
+var mapCopyResult MapPathSet
+
+func BenchmarkMapCopy(b *testing.B) {
+	var out MapPathSet
+	for n := 0; n < b.N; n++ {
+		out = MapCopy(BaseChessMapSet)
+	}
+	mapCopyResult = out
+}
+
 var sliceAddResult SlicePathSet
 
 func BenchmarkSliceAdd(b *testing.B) {

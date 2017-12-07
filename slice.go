@@ -7,6 +7,14 @@ import ()
 
 type SlicePathSet []Path
 
+func SliceCopy(the SlicePathSet) SlicePathSet {
+	next := make(SlicePathSet, len(the))
+	for i, item := range the {
+		next[i] = item
+	}
+	return next
+}
+
 func SliceAdd(the SlicePathSet, add Path) SlicePathSet {
 	the = append(the, add)
 	return the
