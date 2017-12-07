@@ -211,7 +211,7 @@ var sliceAddResult SlicePathSet
 func BenchmarkSliceAdd(b *testing.B) {
 	var out SlicePathSet
 	for n := 0; n < b.N; n++ {
-		out = SliceAdd(BaseChessSliceSet, QueenOnRightPath)
+		out = SliceAdd(SliceCopy(BaseChessSliceSet), QueenOnRightPath)
 	}
 	sliceAddResult = out
 }
@@ -221,7 +221,7 @@ var mapAddResult MapPathSet
 func BenchmarkMapAdd(b *testing.B) {
 	var out MapPathSet
 	for n := 0; n < b.N; n++ {
-		out = MapAdd(BaseChessMapSet, QueenOnRightPath)
+		out = MapAdd(MapCopy(BaseChessMapSet), QueenOnRightPath)
 	}
 	mapAddResult = out
 }
@@ -231,7 +231,7 @@ var sliceDeleteResult SlicePathSet
 func BenchmarkSliceDelete(b *testing.B) {
 	var out SlicePathSet
 	for n := 0; n < b.N; n++ {
-		out = SliceDelete(BaseChessSliceSet, DeletePath)
+		out = SliceDelete(SliceCopy(BaseChessSliceSet), DeletePath)
 	}
 	sliceDeleteResult = out
 }
@@ -241,7 +241,7 @@ var mapDeleteResult MapPathSet
 func BenchmarkMapDelete(b *testing.B) {
 	var out MapPathSet
 	for n := 0; n < b.N; n++ {
-		out = MapDelete(BaseChessMapSet, DeletePath)
+		out = MapDelete(MapCopy(BaseChessMapSet), DeletePath)
 	}
 	mapDeleteResult = out
 }
@@ -251,7 +251,7 @@ var sliceCombineResult SlicePathSet
 func BenchmarkSliceCombine(b *testing.B) {
 	var out SlicePathSet
 	for n := 0; n < b.N; n++ {
-		out = SliceCombine(BaseChessSliceSet, QueenInMiddleSliceSet)
+		out = SliceCombine(SliceCopy(BaseChessSliceSet), SliceCopy(QueenInMiddleSliceSet))
 	}
 	sliceCombineResult = out
 }
@@ -261,7 +261,7 @@ var mapCombineResult MapPathSet
 func BenchmarkMapCombine(b *testing.B) {
 	var out MapPathSet
 	for n := 0; n < b.N; n++ {
-		out = MapCombine(BaseChessMapSet, QueenInMiddleMapSet)
+		out = MapCombine(MapCopy(BaseChessMapSet), MapCopy(QueenInMiddleMapSet))
 	}
 	mapCombineResult = out
 }
@@ -271,7 +271,7 @@ var sliceReduceResult SlicePathSet
 func BenchmarkSliceReduce(b *testing.B) {
 	var out SlicePathSet
 	for n := 0; n < b.N; n++ {
-		out = SliceReduce(BaseChessSliceSetDoubled)
+		out = SliceReduce(SliceCopy(BaseChessSliceSetDoubled))
 	}
 	sliceReduceResult = out
 }
@@ -281,7 +281,7 @@ var mapReduceResult MapPathSet
 func BenchmarkMapReduce(b *testing.B) {
 	var out MapPathSet
 	for n := 0; n < b.N; n++ {
-		out = MapReduce(BaseChessMapSetDoubled)
+		out = MapReduce(MapCopy(BaseChessMapSetDoubled))
 	}
 	mapReduceResult = out
 }
@@ -331,7 +331,7 @@ var sliceDiffResult SlicePathSet
 func BenchmarkSliceDiff(b *testing.B) {
 	var out SlicePathSet
 	for n := 0; n < b.N; n++ {
-		out = SliceDiff(BaseChessSliceSet, QueenInMiddleSliceSet)
+		out = SliceDiff(SliceCopy(BaseChessSliceSet), SliceCopy(QueenInMiddleSliceSet))
 	}
 	sliceDiffResult = out
 }
@@ -341,7 +341,7 @@ var mapDiffResult MapPathSet
 func BenchmarkMapDiff(b *testing.B) {
 	var out MapPathSet
 	for n := 0; n < b.N; n++ {
-		out = MapDiff(BaseChessMapSet, QueenInMiddleMapSet)
+		out = MapDiff(MapCopy(BaseChessMapSet), MapCopy(QueenInMiddleMapSet))
 	}
 	mapDiffResult = out
 }
